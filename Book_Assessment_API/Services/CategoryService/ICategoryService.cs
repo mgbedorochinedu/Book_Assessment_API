@@ -10,7 +10,7 @@ namespace Book_Assessment_API.Services.CategoryService
     public interface ICategoryService
     {
         Task<ServiceResponse<CategoryDto>> AddCategory(AddCategoryDto newCategory);
-        Task <ServiceResponse<CategoryDto>> UpdateCategory(UpdateCategoryDto updateCategory);
+        Task <ServiceResponse<CategoryDto>> UpdateCategory(int id, UpdateCategoryDto updateCategory);
         Task<ServiceResponse<CategoryDto>> AddBooksToCategory(int id, List<int> bookIds);
         Task<ServiceResponse<CategoryDto>> RemoveBooksFromCategory(int id, List<int> bookIds);
         Task<ServiceResponse<CategoryDto>> DeleteCategory(int id);

@@ -6,6 +6,7 @@ using AutoMapper;
 using Book_Assessment_API.Data;
 using Book_Assessment_API.Dtos.Catergory;
 using Book_Assessment_API.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace Book_Assessment_API.Services.CategoryService
 {
@@ -40,9 +41,39 @@ namespace Book_Assessment_API.Services.CategoryService
             return serviceResponse;
         }
 
-        public Task<ServiceResponse<CategoryDto>> UpdateCategory(UpdateCategoryDto updateCategory)
+
+        public async Task<ServiceResponse<CategoryDto>> UpdateCategory(int id, UpdateCategoryDto updateCategory)
         {
-            throw new NotImplementedException();
+            ServiceResponse<CategoryDto> serviceResponse = new ServiceResponse<CategoryDto>();
+            try
+            {
+                Category category = await _db.Categories.FirstOrDefaultAsync(c => c.Id.Equals(id));
+                if (category != null)
+                {
+                    category.Name = updateCategory.Name;
+
+                    category.DateModified = DateTime.Now;
+
+                    _db.Categories.Update(category);
+                    await _db.SaveChangesAsync();
+
+                    serviceResponse.Data = _mapper.Map<CategoryDto>(category);
+                    serviceResponse.Message = "Updated successfully";
+                }
+                else
+                {
+                    serviceResponse.Success = false;
+                    serviceResponse.Message = "Category not found.";
+                }
+
+            }
+            catch (Exception ex)
+            {
+                serviceResponse.Success = false;
+                serviceResponse.Message = ex.Message;
+            }
+
+            return serviceResponse;
         }
 
         public Task<ServiceResponse<CategoryDto>> AddBooksToCategory(int id, List<int> bookIds)

@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Book_Assessment_API.Dtos.Catergory;
+using Book_Assessment_API.Models;
 using Book_Assessment_API.Services.CategoryService;
 
 namespace Book_Assessment_API.Controllers
@@ -28,6 +29,19 @@ namespace Book_Assessment_API.Controllers
                 return BadRequest(ModelState);
             }
             return Ok(await _categoryService.AddCategory(request));
+
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateCategory(int id, [FromBody] UpdateCategoryDto request)
+        {
+            ServiceResponse<CategoryDto> response = await _categoryService.UpdateCategory(id, request);
+            if (response.Data == null)
+            {
+                return NotFound(response);
+            }
+
+            return Ok(response);
 
         }
     }
