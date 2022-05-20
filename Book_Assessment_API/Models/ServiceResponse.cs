@@ -8,7 +8,7 @@ namespace Book_Assessment_API.Models
     public class ServiceResponse<T>
     {
         public T Date { get; set; }
-        public bool Success { get; set; } = false;
+        public bool Success { get; set; } = true;
         public string Message { get; set; } = null;
     }
 }

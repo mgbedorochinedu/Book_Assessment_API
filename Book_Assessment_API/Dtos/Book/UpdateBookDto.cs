@@ -2,19 +2,17 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Book_Assessment_API.Dtos.Catergory;
 
-namespace Book_Assessment_API.Models
+namespace Book_Assessment_API.Dtos.Book
 {
-    public class Book
+    public class UpdateBookDto
     {
         public int Id { get; set; }
         public string Title { get; set; }
         public string AuthorName { get; set; }
         public string Description { get; set; }
 
-        public List<Category> Categories { get; set; }
-
-        public DateTime DateAdded { get; set; } = DateTime.Now;
-        public DateTime DateModified { get; set; }
+        public List<CategoryDto> Categories { get; set; }
     }
 }

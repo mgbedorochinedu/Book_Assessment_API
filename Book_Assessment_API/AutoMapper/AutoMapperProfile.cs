@@ -13,8 +13,12 @@ namespace Book_Assessment_API.AutoMapper
     {
         public AutoMapperProfile()
         {
-            CreateMap<Book, GetBookDto>().ReverseMap();
-            CreateMap<Category, GetCategoryDto>().ReverseMap();
+            CreateMap<Book, BookDto>().ReverseMap();
+            CreateMap<Category, CategoryDto>().ReverseMap();
+            CreateMap<Book, AddBookDto>().ReverseMap();
+            CreateMap<Book, UpdateBookDto>().ReverseMap();
+            CreateMap<Category, UpdateBookDto>().ReverseMap();
+            CreateMap<Category, AddCategoryDto>().ReverseMap();
 
         }
     }

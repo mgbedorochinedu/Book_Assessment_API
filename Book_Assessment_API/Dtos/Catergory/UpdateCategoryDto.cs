@@ -6,9 +6,10 @@ using Book_Assessment_API.Dtos.Book;
 
 namespace Book_Assessment_API.Dtos.Catergory
 {
-    public class GetCategoryDto
+    public class UpdateCategoryDto
     {
+        public int Id { get; set; }
         public string Name { get; set; }
-        public List<GetBookDto> Book { get; set; }
+        public List<BookDto> Book { get; set; }
     }
 }

@@ -9,6 +9,6 @@ namespace Book_Assessment_API.Services.BookService
 {
     public interface IBookService
     {
-        Task<ServiceResponse<ServiceResponse<GetBookDto>>> AddBook();
+        Task<ServiceResponse<List<BookDto>>> AddBook(AddBookDto newBook);
     }
 }
