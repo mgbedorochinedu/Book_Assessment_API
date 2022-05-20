@@ -18,5 +18,7 @@ namespace Book_Assessment_API.Dtos.Book
         [Required(ErrorMessage = "IsFavorite required")]
         public bool IsFavorite { get; set; }
 
+        public int CategoryId { get; set; }
+
     }
 }

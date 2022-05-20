@@ -20,13 +20,15 @@ namespace Book_Assessment_API.Services.CategoryService
             _mapper = mapper;
             _db = db;
         }
+
+
         public async Task<ServiceResponse<CategoryDto>> AddCategory(AddCategoryDto newCategory)
         {
             ServiceResponse<CategoryDto> serviceResponse = new ServiceResponse<CategoryDto>();
             try
             {
                 Category category = _mapper.Map<Category>(newCategory);
-                await _db.AddAsync(category);
+                await _db.Categories.AddAsync(category);
                 await _db.SaveChangesAsync();
 
                 serviceResponse.Data =  _mapper.Map<CategoryDto>(category);
@@ -50,7 +52,7 @@ namespace Book_Assessment_API.Services.CategoryService
                 Category category = await _db.Categories.FirstOrDefaultAsync(c => c.Id.Equals(id));
                 if (category != null)
                 {
-                    category.Name = updateCategory.Name;
+                    category.Name = updateCategory.Name ?? category.Name;
 
                     category.DateModified = DateTime.Now;
 
@@ -86,9 +88,33 @@ namespace Book_Assessment_API.Services.CategoryService
             throw new NotImplementedException();
         }
 
-        public Task<ServiceResponse<CategoryDto>> DeleteCategory(int id)
+        public async Task<ServiceResponse<CategoryDto>> DeleteCategory(int id)
         {
-            throw new NotImplementedException();
+            ServiceResponse<CategoryDto> serviceResponse = new ServiceResponse<CategoryDto>();
+            try
+            {
+                Category dbCategory = await _db.Categories.Where(c => c.Id == id).FirstOrDefaultAsync();
+                if (dbCategory != null)
+                {
+                    _db.Remove(dbCategory);
+                    await _db.SaveChangesAsync();
+
+                    serviceResponse.Data = _mapper.Map<CategoryDto>(dbCategory);
+                }
+                else
+                {
+                    serviceResponse.Success = false;
+                    serviceResponse.Message = "Category not found!";
+                }
+
+            }
+            catch (Exception ex)
+            {
+                serviceResponse.Success = false;
+                serviceResponse.Message = ex.Message;
+            }
+
+            return serviceResponse;
         }
     }
 }

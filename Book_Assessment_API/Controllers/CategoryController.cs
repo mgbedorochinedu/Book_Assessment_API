@@ -36,13 +36,24 @@ namespace Book_Assessment_API.Controllers
         public async Task<IActionResult> UpdateCategory(int id, [FromBody] UpdateCategoryDto request)
         {
             ServiceResponse<CategoryDto> response = await _categoryService.UpdateCategory(id, request);
-            if (response.Data == null)
+            if (response.Data == null || !response.Success)
             {
                 return NotFound(response);
             }
 
             return Ok(response);
+        }
 
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteCategory(int id)
+        {
+            ServiceResponse<CategoryDto> response = await _categoryService.DeleteCategory(id);
+            if (response.Data == null || !response.Success)
+            {
+                return NotFound(response);
+            }
+
+            return Ok(response);
         }
     }
 }

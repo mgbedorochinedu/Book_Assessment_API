@@ -21,16 +21,36 @@ namespace Book_Assessment_API.Services.BookService
             _db = db;
         }
 
-        public async Task<ServiceResponse<List<BookDto>>> AddBook(AddBookDto newBook)
+        public async Task<ServiceResponse<BookDto>> AddBook(AddBookDto newBook)
         {
-            ServiceResponse<List<BookDto>> serviceResponse = new ServiceResponse<List<BookDto>>();
+            ServiceResponse<BookDto> serviceResponse = new ServiceResponse<BookDto>();
             try
             {
-                Book book = _mapper.Map<Book>(newBook);
-                await _db.AddAsync(book);
+                Category dbCategory = await _db.Categories.Include(x => x.Book).FirstOrDefaultAsync(b => b.Id == newBook.CategoryId);
+                if (dbCategory == null)
+                {
+                    serviceResponse.Success = false;
+                    serviceResponse.Message = "Category not found";
+
+                    return serviceResponse;
+                }
+
+                Book book = new Book()
+                {
+                    AuthorName = newBook.AuthorName,
+                    Description = newBook.Description,
+                    IsFavorite = newBook.IsFavorite,
+                    Category = dbCategory
+                };
+                await _db.Books.AddAsync(book);
                 await _db.SaveChangesAsync();
 
-               // serviceResponse.Data = await _db.Books.Select(x => _mapper.Map<BookDto>(x)).ToListAsync();
+
+                //Book book = _mapper.Map<Book>(newBook);
+                //await _db.AddAsync(book);
+                //await _db.SaveChangesAsync();
+
+                serviceResponse.Data =  _mapper.Map<BookDto>(book);
                 serviceResponse.Message = "Book added successfully";
             }
             catch (Exception ex)

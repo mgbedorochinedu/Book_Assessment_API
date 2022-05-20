@@ -11,5 +11,7 @@ namespace Book_Assessment_API.Models
         public string AuthorName { get; set; }
         public string Description { get; set; }
         public bool IsFavorite { get; set; } = false;
+        public int CategoryId { get; set; }
+        public Category Category { get; set; }
     }
 }

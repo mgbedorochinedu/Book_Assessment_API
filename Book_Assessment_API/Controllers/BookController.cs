@@ -37,7 +37,7 @@ namespace Book_Assessment_API.Controllers
         public async Task<IActionResult> UpdateBook(int id, [FromBody] UpdateBookDto request)
         {
             ServiceResponse<BookDto> response = await _bookService.UpdateBook(id, request);
-            if (response.Data == null)
+            if (response.Data == null || !response.Success)
             {
                 return NotFound(response);
             }
