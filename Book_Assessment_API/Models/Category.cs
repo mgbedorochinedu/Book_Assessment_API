@@ -13,6 +13,6 @@ namespace Book_Assessment_API.Models
         public string Name { get; set; }
         [ForeignKey("Book")]
         public int BookId { get; set; }
-        public Book Book { get; set; }
+        public List<Book> Book { get; set; }
     }
 }

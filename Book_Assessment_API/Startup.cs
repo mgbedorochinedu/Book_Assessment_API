@@ -12,6 +12,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Book_Assessment_API.Data;
+using Book_Assessment_API.Services.BookService;
+using Book_Assessment_API.Services.CategoryService;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 
@@ -29,6 +31,10 @@ namespace Book_Assessment_API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+
+            services.AddAutoMapper(typeof(Startup));
+            services.AddScoped<IBookService, BookService>();
+            services.AddScoped<ICategoryService, CategoryService>();
 
             services.AddControllers();
             services.AddDbContext<DataContext>(x =>
