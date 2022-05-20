@@ -30,7 +30,7 @@ namespace Book_Assessment_API.Services.BookService
                 await _db.AddAsync(book);
                 await _db.SaveChangesAsync();
 
-                serviceResponse.Date = await _db.Books.Select(x => _mapper.Map<BookDto>(x)).ToListAsync();
+                serviceResponse.Data = await _db.Books.Select(x => _mapper.Map<BookDto>(x)).ToListAsync();
                 serviceResponse.Message = "Book added successfully";
             }
             catch (Exception ex)
@@ -42,5 +42,54 @@ namespace Book_Assessment_API.Services.BookService
             return serviceResponse;
         }
 
+        public async Task<ServiceResponse<BookDto>> UpdateBook(UpdateBookDto updateBook)
+        {
+            ServiceResponse<BookDto> serviceResponse = new ServiceResponse<BookDto>();
+            try
+            {
+                Book book = await _db.Books.FirstOrDefaultAsync(x => x.Id.Equals(updateBook.Id));
+                if (book != null)
+                {
+                    book.Title = updateBook.Title;
+                    book.AuthorName = updateBook.AuthorName;
+                    book.Description = updateBook.Description;
+                    book.DateModified = DateTime.Now;
+
+                    _db.Books.Update(book);
+                    await _db.SaveChangesAsync();
+
+                    serviceResponse.Data = _mapper.Map<BookDto>(book);
+                }
+                else
+                {
+                    serviceResponse.Success = false;
+                    serviceResponse.Message = "Book not found.";
+                }
+
+            }
+            catch (Exception ex)
+            {
+                serviceResponse.Success = false;
+                serviceResponse.Message = ex.Message;
+            }
+
+            return serviceResponse;
+        }
+
+        public async Task<ServiceResponse<List<BookDto>>> GetAllBook()
+        {
+            ServiceResponse<List<BookDto>> serviceResponse = new ServiceResponse<List<BookDto>>();
+            try
+            {
+
+            }
+            catch (Exception ex)
+            {
+                serviceResponse.Success = false;
+                serviceResponse.Message = ex.Message;
+            }
+
+            return serviceResponse;
+        }
     }
 }
