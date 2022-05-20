@@ -7,12 +7,9 @@ using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace Book_Assessment_API.Models
 {
-    public class Category
+    public class Category : BaseEntity
     {
-        public int Id { get; set; }
         public string Name { get; set; }
-        [ForeignKey("Book")]
-        public int BookId { get; set; }
         public List<Book> Book { get; set; }
     }
 }

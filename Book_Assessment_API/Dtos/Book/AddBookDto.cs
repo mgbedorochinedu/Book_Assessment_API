@@ -15,6 +15,8 @@ namespace Book_Assessment_API.Dtos.Book
         public string AuthorName { get; set; }
         [Required (ErrorMessage = "Description required")]
         public string Description { get; set; }
+        [Required(ErrorMessage = "IsFavorite required")]
+        public bool IsFavorite { get; set; }
 
     }
 }

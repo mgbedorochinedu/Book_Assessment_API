@@ -5,16 +5,11 @@ using System.Threading.Tasks;
 
 namespace Book_Assessment_API.Models
 {
-    public class Book
+    public class Book : BaseEntity
     {
-        public int Id { get; set; }
         public string Title { get; set; }
         public string AuthorName { get; set; }
         public string Description { get; set; }
-
-        public List<Category> Categories { get; set; }
-
-        public DateTime DateAdded { get; set; } = DateTime.Now;
-        public DateTime DateModified { get; set; }
+        public bool IsFavorite { get; set; } = false;
     }
 }

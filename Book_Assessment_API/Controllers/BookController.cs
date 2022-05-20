@@ -10,7 +10,7 @@ using Book_Assessment_API.Services.BookService;
 
 namespace Book_Assessment_API.Controllers
 {
-    [Route("api/book")]
+    [Route("api/books")]
     [ApiController]
     public class BookController : ControllerBase
     {
@@ -20,8 +20,9 @@ namespace Book_Assessment_API.Controllers
         {
             _bookService = bookService;
         }
-        [HttpPost("add-book")]
-        public async Task<IActionResult> AddBook(AddBookDto request)
+
+        [HttpPost]
+        public async Task<IActionResult> AddBook([FromBody] AddBookDto request)
         {
             
                 if (!ModelState.IsValid)
@@ -32,16 +33,22 @@ namespace Book_Assessment_API.Controllers
                 return Ok(await _bookService.AddBook(request));
         }
 
-        [HttpPut("update-book")]
-        public async Task<IActionResult> UpdateBook(UpdateBookDto request)
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateBook(int id, [FromBody] UpdateBookDto request)
         {
-            ServiceResponse<BookDto> response = await _bookService.UpdateBook(request);
+            ServiceResponse<BookDto> response = await _bookService.UpdateBook(id, request);
             if (response.Data == null)
             {
                 return NotFound(response);
             }
 
             return Ok(response);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetAllBook()
+        {
+            return Ok(await _bookService.GetAllBook());
         }
     }
 }

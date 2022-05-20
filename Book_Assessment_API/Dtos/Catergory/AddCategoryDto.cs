@@ -9,7 +9,7 @@ namespace Book_Assessment_API.Dtos.Catergory
 {
     public class AddCategoryDto
     {
-        [Required(ErrorMessage = "Category name is required")]
+        [Required(ErrorMessage = "Category required")]
         public string Name { get; set; }
 
     }
