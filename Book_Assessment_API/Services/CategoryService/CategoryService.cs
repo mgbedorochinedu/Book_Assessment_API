@@ -78,15 +78,7 @@ namespace Book_Assessment_API.Services.CategoryService
             return serviceResponse;
         }
 
-        public Task<ServiceResponse<CategoryDto>> AddBooksToCategory(int id, List<int> bookIds)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<ServiceResponse<CategoryDto>> RemoveBooksFromCategory(int id, List<int> bookIds)
-        {
-            throw new NotImplementedException();
-        }
+       
 
         public async Task<ServiceResponse<CategoryDto>> DeleteCategory(int id)
         {
@@ -100,6 +92,7 @@ namespace Book_Assessment_API.Services.CategoryService
                     await _db.SaveChangesAsync();
 
                     serviceResponse.Data = _mapper.Map<CategoryDto>(dbCategory);
+                    serviceResponse.Message = "Category successfully deleted";
                 }
                 else
                 {
@@ -116,5 +109,46 @@ namespace Book_Assessment_API.Services.CategoryService
 
             return serviceResponse;
         }
+
+        public async Task<ServiceResponse<List<CategoryDto>>> GetAllCategories()
+        {
+            ServiceResponse<List<CategoryDto>> serviceResponse = new ServiceResponse<List<CategoryDto>>();
+            try
+            {
+                List<Category> dbCategories = await _db.Categories.ToListAsync();
+                if (dbCategories != null)
+                {
+                    serviceResponse.Data = dbCategories.Select(c => _mapper.Map<CategoryDto>(c)).ToList();
+                    serviceResponse.Message = "Successfully fetched all categories";
+                }
+                else
+                {
+                    serviceResponse.Success = false;
+                    serviceResponse.Message = "Categories not found.";
+                }
+
+            }
+            catch (Exception ex)
+            {
+                serviceResponse.Success = false;
+                serviceResponse.Message = ex.Message;
+            }
+
+            return serviceResponse;
+        }
+
+
+        //public Task<ServiceResponse<CategoryDto>> AddBooksToCategory(int id, List<int> bookIds)
+        //{
+        //    throw new NotImplementedException();
+        //}
+
+        //public Task<ServiceResponse<CategoryDto>> RemoveBooksFromCategory(int id, List<int> bookIds)
+        //{
+        //    throw new NotImplementedException();
+        //}
+
+
+
     }
 }

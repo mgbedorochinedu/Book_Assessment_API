@@ -11,8 +11,11 @@ namespace Book_Assessment_API.Services.CategoryService
     {
         Task<ServiceResponse<CategoryDto>> AddCategory(AddCategoryDto newCategory);
         Task <ServiceResponse<CategoryDto>> UpdateCategory(int id, UpdateCategoryDto updateCategory);
-        Task<ServiceResponse<CategoryDto>> AddBooksToCategory(int id, List<int> bookIds);
-        Task<ServiceResponse<CategoryDto>> RemoveBooksFromCategory(int id, List<int> bookIds);
         Task<ServiceResponse<CategoryDto>> DeleteCategory(int id);
+        Task<ServiceResponse<List<CategoryDto>>> GetAllCategories();
+        Task<ServiceResponse<CategoryDto>> AddBooksToCategory(int id);
+        //Task<ServiceResponse<CategoryDto>> AddBooksToCategory(int id, List<int> bookIds);
+        //Task<ServiceResponse<CategoryDto>> RemoveBooksFromCategory(int id, List<int> bookIds);
+
     }
 }

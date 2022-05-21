@@ -55,5 +55,11 @@ namespace Book_Assessment_API.Controllers
 
             return Ok(response);
         }
+
+        [HttpGet]
+        public async Task<IActionResult> GetAllCategories()
+        {
+            return Ok(await _categoryService.GetAllCategories());
+        }
     }
 }
