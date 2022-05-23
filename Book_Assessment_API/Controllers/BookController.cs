@@ -58,5 +58,17 @@ namespace Book_Assessment_API.Controllers
             return Ok(await _bookService.FavoriteBooks(request));
         }
 
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteBook(int id)
+        {
+            ServiceResponse<BookDto> response = await _bookService.DeleteBook(id);
+            if (response.Data == null || !response.Success)
+            {
+                return NotFound(response);
+            }
+
+            return Ok(response);
+        }
     }
 }

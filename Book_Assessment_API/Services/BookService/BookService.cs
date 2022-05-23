@@ -38,7 +38,7 @@ namespace Book_Assessment_API.Services.BookService
             catch (Exception ex)
             {
                 serviceResponse.Success = false;
-                serviceResponse.Message = ex.InnerException.Message;
+                serviceResponse.Message = ex.Message;
             }
 
             return serviceResponse;
@@ -107,6 +107,40 @@ namespace Book_Assessment_API.Services.BookService
 
             return serviceResponse;
         }
+
+        public async Task<ServiceResponse<BookDto>> DeleteBook(int id)
+        {
+            ServiceResponse<BookDto> serviceResponse = new ServiceResponse<BookDto>();
+            try
+            {
+                Book dbBook = await _db.Books.Where(c => c.Id == id).FirstOrDefaultAsync();
+                if (dbBook != null)
+                {
+                    _db.Remove(dbBook);
+                    await _db.SaveChangesAsync();
+
+                    serviceResponse.Data = _mapper.Map<BookDto>(dbBook);
+                    serviceResponse.Message = "Book successfully deleted";
+                }
+                else
+                {
+                    serviceResponse.Success = false;
+                    serviceResponse.Message = "Book not found!";
+                }
+
+            }
+            catch (Exception ex)
+            {
+                serviceResponse.Success = false;
+                serviceResponse.Message = ex.Message;
+            }
+
+            return serviceResponse;
+        }
+
+
+
+
 
         public async Task<ServiceResponse<List<BookDto>>> FavoriteBooks(bool favorite)
         {
