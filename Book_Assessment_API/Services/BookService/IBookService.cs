@@ -12,5 +12,6 @@ namespace Book_Assessment_API.Services.BookService
         Task<ServiceResponse<BookDto>> AddBook(AddBookDto newBook);
         Task<ServiceResponse<BookDto>> UpdateBook(int id, UpdateBookDto updateBook);
         Task<ServiceResponse<List<BookDto>>> GetAllBook();
+        Task<ServiceResponse<List<BookDto>>> FavoriteBooks(bool favorite);
     }
 }

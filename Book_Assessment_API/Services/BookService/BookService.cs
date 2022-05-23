@@ -26,37 +26,19 @@ namespace Book_Assessment_API.Services.BookService
             ServiceResponse<BookDto> serviceResponse = new ServiceResponse<BookDto>();
             try
             {
-                Category dbCategory = await _db.Categories.Include(x => x.Book).FirstOrDefaultAsync(b => b.Id == newBook.CategoryId);
-                if (dbCategory == null)
-                {
-                    serviceResponse.Success = false;
-                    serviceResponse.Message = "Category not found";
-
-                    return serviceResponse;
-                }
-
-                Book book = new Book()
-                {
-                    AuthorName = newBook.AuthorName,
-                    Description = newBook.Description,
-                    IsFavorite = newBook.IsFavorite,
-                    Category = dbCategory
-                };
+                Book book = _mapper.Map<Book>(newBook);
                 await _db.Books.AddAsync(book);
                 await _db.SaveChangesAsync();
 
+                book = await _db.Books.Include(x => x.Category).FirstOrDefaultAsync(x => x.Id == book.Id);
 
-                //Book book = _mapper.Map<Book>(newBook);
-                //await _db.AddAsync(book);
-                //await _db.SaveChangesAsync();
-
-                serviceResponse.Data =  _mapper.Map<BookDto>(book);
+                serviceResponse.Data = _mapper.Map<BookDto>(book);
                 serviceResponse.Message = "Book added successfully";
             }
             catch (Exception ex)
             {
                 serviceResponse.Success = false;
-                serviceResponse.Message = ex.Message;
+                serviceResponse.Message = ex.InnerException.Message;
             }
 
             return serviceResponse;
@@ -104,10 +86,10 @@ namespace Book_Assessment_API.Services.BookService
             ServiceResponse<List<BookDto>> serviceResponse = new ServiceResponse<List<BookDto>>();
             try
             {
-                List<Book> dbBooks = await _db.Books.ToListAsync();
+                List<Book> dbBooks = await _db.Books.Include(x => x.Category).ToListAsync();
                 if (dbBooks != null)
                 {
-                    serviceResponse.Data = dbBooks.Select(x => _mapper.Map<BookDto>(x)).ToList();
+                    serviceResponse.Data = _mapper.Map<List<BookDto>>(dbBooks);
                     serviceResponse.Message = "Successfully fetched all books";
                 }
                 else
@@ -124,6 +106,26 @@ namespace Book_Assessment_API.Services.BookService
             }
 
             return serviceResponse;
+        }
+
+        public async Task<ServiceResponse<List<BookDto>>> FavoriteBooks(bool favorite)
+        {
+            ServiceResponse<List<BookDto>> serviceResponse = new ServiceResponse<List<BookDto>>();
+            try
+            {
+               List<Book> dbBooks = await _db.Books.Include(x => x.Category).Where(x => x.IsFavorite == favorite).ToListAsync();
+
+               serviceResponse.Data = _mapper.Map<List<BookDto>>(dbBooks);
+               serviceResponse.Message = "Fetched all favorite books";
+            }
+            catch (Exception ex)
+            {
+                serviceResponse.Success = false;
+                serviceResponse.Message = ex.Message;
+            }
+
+            return serviceResponse;
+
         }
     }
 }

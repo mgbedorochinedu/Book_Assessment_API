@@ -9,15 +9,22 @@ namespace Book_Assessment_API.Dtos.Book
 {
     public class AddBookDto
     {
-        [Required(ErrorMessage = "Title required")]
+
+        [Required(ErrorMessage = "Title is Required")]
         public string Title { get; set; }
-        [Required(ErrorMessage = "Author Name required")]
+
+
+        [Required(ErrorMessage = "Author Name is Required")]
         public string AuthorName { get; set; }
-        [Required (ErrorMessage = "Description required")]
+
+
+        [Required(ErrorMessage = "Description is Required")]
         public string Description { get; set; }
-        [Required(ErrorMessage = "IsFavorite required")]
+
         public bool IsFavorite { get; set; }
 
+        [Required (ErrorMessage = "Category is Required")]
+        [Range(1, int.MaxValue, ErrorMessage = "Please enter a valid category")]
         public int CategoryId { get; set; }
 
     }

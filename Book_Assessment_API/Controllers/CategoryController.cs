@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Book_Assessment_API.Dtos.Book;
 using Book_Assessment_API.Dtos.Catergory;
 using Book_Assessment_API.Models;
 using Book_Assessment_API.Services.CategoryService;
@@ -60,6 +61,20 @@ namespace Book_Assessment_API.Controllers
         public async Task<IActionResult> GetAllCategories()
         {
             return Ok(await _categoryService.GetAllCategories());
+        }
+
+        [HttpGet("{id}/books")]
+        public async Task<IActionResult> GetCategoryBooks(int id)
+        {
+            return Ok(await _categoryService.GetCategoryBooks(id));
+        }
+
+        [HttpPost("{id}/add-books")]
+        public async Task<IActionResult> AddBooksToCategory(int id, int bookId)
+        {
+            ServiceResponse<BookDto> response = await _categoryService.AddBooksToCategory(id, bookId);
+            return Ok(response);
+
         }
     }
 }

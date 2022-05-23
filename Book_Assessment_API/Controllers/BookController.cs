@@ -24,13 +24,14 @@ namespace Book_Assessment_API.Controllers
         [HttpPost]
         public async Task<IActionResult> AddBook([FromBody] AddBookDto request)
         {
-            
-                if (!ModelState.IsValid)
-                {
-                    return BadRequest(ModelState);
-                }
-
+            if (ModelState.IsValid) 
                 return Ok(await _bookService.AddBook(request));
+
+            var message = string.Join(" | ", ModelState.Values
+                .SelectMany(v => v.Errors)
+                .Select(e => e.ErrorMessage));
+            return  BadRequest(message);
+
         }
 
         [HttpPut("{id}")]
@@ -50,5 +51,12 @@ namespace Book_Assessment_API.Controllers
         {
             return Ok(await _bookService.GetAllBook());
         }
+
+        [HttpGet("favorites")]
+        public async Task<IActionResult> FavoriteBook([FromQuery] bool request)
+        {
+            return Ok(await _bookService.FavoriteBooks(request));
+        }
+
     }
 }

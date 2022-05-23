@@ -12,6 +12,7 @@ namespace Book_Assessment_API.Dtos.Book
         public string AuthorName { get; set; }
         public string Description { get; set; }
         public bool IsFavorite { get; set; }
+        public string CategoryName { get; set; }
 
     }
 }
