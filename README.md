@@ -14,13 +14,17 @@ This application is built using C#/Asp.net core and SQL Server. it follows a RES
 
 | Methods | Endpoints                                   | Access  | Description                              |
 | ------- | ------------------------------------------- | ------- | ---------------------------------------- |
-| PUT     | /api/books/{id}                             | Public  | Update Single Book                       |
-| GET	    | /api/books                                  | Public  | Get Single Book                          |
+| POST    | /api/books                                  | Public  | Add a Book                               |
+| PUT     | /api/books/{id}                             | Public  | Update a Book                            |
+| GET	    | /api/books                                  | Public  | Get All Books                            |
+| DELETE  | /api/books/{id}                             | Public  | Delete Book                              |
+| GET	    | /api/books/favorites                        | Public  | Get List of favorites books              |
 | POST    | /api/categories                             | Public  | Add Category                             |
 | GET     | /api/categories                             | Public  | Get All Category                         |
+| GET     | /api/categories/{id}/books                  | Public  | Get Category List of Book                |
 | PUT     | /api/categories/{id}                        | Public  | Update Category                          |
 | DELETE  | /api/categories/{id}                        | Public  | Delete Category                          |
-| POST 	  | ​/api​/categories​/add-books-to-categories  | Public  | Add Book To Category                     |
+| POST 	  | /api/categories/{id}/add-books              | Public  | Add Book To Category                     |
 |	        | 	                                          |         |                                          |
 |     	  | 			                                      | 	      |                                          |
 | 	      | 			                                      |         |                                          |        
