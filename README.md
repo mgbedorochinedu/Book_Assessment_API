@@ -10,7 +10,7 @@ This application is built using C#/Asp.net core and SQL Server. it follows a RES
 * Run **update-database** on your Package manager console, then 
 * Click on **IIS Express** on Visual Studio to start the project (you can either use Swagger or Postman)	
 
-## API ENDPOINTS - Uisng either Swagger or Postman
+## API ENDPOINTS - Using either Swagger or Postman
 
 | Methods | Endpoints                                   | Access  | Description                              |
 | ------- | ------------------------------------------- | ------- | ---------------------------------------- |
